@@ -13,9 +13,9 @@ if [ -z "$PR_NUMBER" ]; then
   exit 1
 fi
 
-REPO_OWNER=$(jq -r .event.base.repo.owner /github/workflow/event.json)
-REPO_NAME=$(jq -r .event.base.repo.name /github/workflow/event.json)
-EVENT_TYPE=$(jq -r .action /github/workflow/event.json)
+REPO_OWNER=$GITHUB_REPOSITORY_OWNER
+REPO_NAME=$GITHUB_REPOSITORY
+EVENT_TYPE=$GITHUB_EVENT_NAME
 
 # Default the Fly app name to pr-{number}-{repo_owner}-{repo_name}
 app="${INPUT_NAME:-pr-$PR_NUMBER-$REPO_OWNER-$REPO_NAME}"
