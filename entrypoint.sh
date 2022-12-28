@@ -14,7 +14,9 @@ if [ -z "$PR_NUMBER" ]; then
 fi
 
 REPO_OWNER=$GITHUB_REPOSITORY_OWNER
-REPO_NAME=$GITHUB_REPOSITORY
+# REPO_NAME=$GITHUB_REPOSITORY
+# TODO: fix this
+REPO_NAME="platform"
 EVENT_TYPE=$GITHUB_EVENT_NAME
 
 # Default the Fly app name to pr-{number}-{repo_owner}-{repo_name}
