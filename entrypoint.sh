@@ -40,6 +40,11 @@ fi
 # Deploy the Fly app, creating it first if needed.
 if ! flyctl status --app "$app"; then
   flyctl launch --no-deploy --copy-config --name "$app" --region "$region" --org "$org"
+
+  # Attach postgres cluster to the app if specified.
+  if [ -n "$INPUT_POSTGRES" ]; then
+    flyctl postgres attach "$INPUT_POSTGRES" --config "$config" --app "$app"
+  fi
 fi
 
 # Set/update secrets
@@ -49,11 +54,6 @@ fi
 
 # Deploy
 flyctl deploy --config "$config" --app "$app" --remote-only --region "$region" --strategy immediate
-
-# Attach postgres cluster to the app if specified.
-if [ -n "$INPUT_POSTGRES" ]; then
-  flyctl postgres attach "$INPUT_POSTGRES" --config "$config" --app "$app"
-fi
 
 # Make some info available to the GitHub workflow.
 fly status --app "$app" --json >status.json
